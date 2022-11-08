@@ -36,8 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'enem_calculator_api.core',
-    'rest_framework'
+    'rest_framework',
+    'enem_calculator_api.core',
 ]
 
 MIDDLEWARE = [
