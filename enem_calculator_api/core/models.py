@@ -66,30 +66,6 @@ class Ambition(models.Model):
         verbose_name_plural = 'Metas'
 
 
-class BetterChoices(models.IntegerChoices):
-    @classmethod
-    def get_value(cls, label):
-        try:
-            labels = [lbl.lower() for lbl in cls.labels]
-            pos = labels.index(label.lower())
-            return cls.values[pos]
-        except ValueError:
-            return None
-
-    @classmethod
-    def get_label(cls, value):
-        try:
-            pos = cls.values.index(value)
-            return cls.labels[pos]
-        except ValueError:
-            return None
-
-
-class ScoreChoices(BetterChoices):
-    SIMULATION = 0, 'Simulação'
-    OFFICIAL = 1, 'Nota oficial'
-
-
 class Simulation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     ambition = models.ForeignKey(Ambition, on_delete=models.CASCADE)
@@ -99,7 +75,8 @@ class Simulation(models.Model):
     science = models.FloatField('Nota de Ciências da Natureza', default=0)
     human_science = models.FloatField('Nota de Ciências Humanas', default=0)
     essay = models.FloatField('Nota de Redação', default=0)
-    official_score = models.PositiveSmallIntegerField('Nota Oficial', choices=ScoreChoices.choices)
+    is_official = models.BooleanField('É oficial?', default=False)
+    final_score = models.FloatField('Nota final', default=0)
     created_at = models.DateTimeField(default=timezone.now, editable=False)
 
     def __str__(self):
