@@ -6,16 +6,16 @@ from enem_calculator_api.core.models import User, Ambition, Simulation
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'name', 'email', 'password']
+        fields = ['id', 'name', 'email']
 
 
 class AmbitionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ambition
-        fields = ['id', 'name', 'description', 'score']
+        fields = '__all__'
 
 
 class SimulationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Simulation
-        fields = ['id', 'user', 'ambition', 'score', 'date']
+        fields = '__all__'
