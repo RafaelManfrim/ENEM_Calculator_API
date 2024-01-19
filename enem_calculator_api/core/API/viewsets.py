@@ -2,6 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from enem_calculator_api.core.API.serializers import UserSerializer, AmbitionSerializer, SimulationSerializer
 from enem_calculator_api.core.models import User, Ambition, Simulation
@@ -41,7 +42,15 @@ class UserViewset(viewsets.ModelViewSet):
 
         serializer = self.serializer_class(created_user)
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        refresh = RefreshToken.for_user(created_user)
+
+        response = {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+            'user': serializer.data
+        }
+
+        return Response(response, status=status.HTTP_201_CREATED)
 
     def update(self, request, *args, **kwargs):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
